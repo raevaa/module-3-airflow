@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 default_args = {
     "owner": "airflow",
     "depends_on_past": False,
-    "start_date": datetime(2019, 1, 1),
+    "start_date": datetime(2005, 1, 1),
     "email": ["airflow@airflow.com"],
     "email_on_failure": False,
     "email_on_retry": False,
@@ -16,7 +16,11 @@ default_args = {
 
 dag = DAG("spacex", default_args=default_args, schedule_interval="0 0 1 1 *")
 
-for launch in "all", "falcon1", "falcon9", "falconheavy":
+list_launch = ["all", "falcon1", "falcon9", "falconheavy"]
+
+for launch in list_launch:
+
+    for launch in list_launch:
 
     if launch == "all":
         command_str = "python3 /root/airflow/dags/spacex/load_launches.py -y {{ execution_date.year }} -o /var/data"
@@ -24,13 +28,13 @@ for launch in "all", "falcon1", "falcon9", "falconheavy":
         command_str = "python3 /root/airflow/dags/spacex/load_launches.py -y {{ execution_date.year }} -o /var/data -r " + launch
     
     t1 = BashOperator(
-    task_id="get_data", 
+    task_id="get_data_" + launch, 
     bash_command=command_str, 
     dag=dag
     )
 
     t2 = BashOperator(
-    task_id="print_data", 
+    task_id="print_data_" + launch, 
     bash_command="cat /var/data/year={{ execution_date.year }}/rocket={{ params.rocket }}/data.csv", 
     params={"rocket": launch}, # falcon1/falcon9/falconheavy
     dag=dag
