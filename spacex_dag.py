@@ -25,17 +25,17 @@ for launcn in list_launch:
     else:
         command_str = "python3 /root/airflow/dags/spacex/load_launches.py -y {{ execution_date.year }} -o /var/data -r " + launch
     
-        t1 = BashOperator(
-        task_id="get_data", 
-        bash_command=command_str, 
-        dag=dag
-        )
+    t1 = BashOperator(
+    task_id="get_data", 
+    bash_command=command_str, 
+    dag=dag
+    )
 
-        t2 = BashOperator(
-        task_id="print_data", 
-        bash_command="cat /var/data/year={{ execution_date.year }}/rocket={{ params.rocket }}/data.csv", 
-        params={"rocket": launch}, # falcon1/falcon9/falconheavy
-        dag=dag
-        )
+    t2 = BashOperator(
+    task_id="print_data", 
+    bash_command="cat /var/data/year={{ execution_date.year }}/rocket={{ params.rocket }}/data.csv", 
+    params={"rocket": launch}, # falcon1/falcon9/falconheavy
+    dag=dag
+    )
 
-        t1 >> t2
+    t1 >> t2
