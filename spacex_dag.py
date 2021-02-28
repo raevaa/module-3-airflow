@@ -20,8 +20,6 @@ list_launch = ["all", "falcon1", "falcon9", "falconheavy"]
 
 for launch in list_launch:
 
-    for launch in list_launch:
-
     if launch == "all":
         command_str = "python3 /root/airflow/dags/spacex/load_launches.py -y {{ execution_date.year }} -o /var/data"
     else:
