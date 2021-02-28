@@ -19,7 +19,7 @@ dag = DAG(
     'git_sync',
     default_args=default_args,
     description='A simple tutorial DAG',
-    schedule_interval=timedelta(seconds=60),
+    schedule_interval=timedelta(minuts=1),
 )
 
 git_pull = BashOperator(
