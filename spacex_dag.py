@@ -16,11 +16,11 @@ default_args = {
 
 dag = DAG("spacex", default_args=default_args, schedule_interval="0 0 1 1 *")
 
-list_launch = ['all', 'falcon1', 'falcon9', 'falconheavy']
+list_launch = ["all", "falcon1", "falcon9", "falconheavy"]
 
 for launcn in list_launch:
 
-    if launch = 'all':
+    if launch = "all":
         command_str = "python3 /root/airflow/dags/spacex/load_launches.py -y {{ execution_date.year }} -o /var/data"
     else:
         command_str = "python3 /root/airflow/dags/spacex/load_launches.py -y {{ execution_date.year }} -o /var/data -r " + launch
